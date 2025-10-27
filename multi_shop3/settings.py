@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -27,16 +27,22 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    # admin page theme
+    'django_daisy',
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.humanize',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # apps
+    "home.apps.HomeConfig",
+    "account.apps.AccountConfig",
 ]
 
 MIDDLEWARE = [
@@ -69,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'multi_shop3.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -79,7 +84,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -99,6 +103,42 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# DaisyUI Admin Theme Configuration
+DAISY_SETTINGS = {
+    # Branding
+    'SITE_TITLE': 'Django Admin',
+    'SITE_HEADER': 'Administration',
+    'INDEX_TITLE': 'Hi, welcome to your dashboard',
+    'SITE_LOGO': '/static/admin/img/daisyui-logomark.svg',
+
+    # Customization
+    'EXTRA_STYLES': [],  # Additional CSS files
+    'EXTRA_SCRIPTS': [],  # Additional JS files
+    'LOAD_FULL_STYLES': False,  # Load complete DaisyUI library
+    'SHOW_CHANGELIST_FILTER': False,  # Auto-open filter sidebar
+    'DONT_SUPPORT_ME': True,  # Hide GitHub link
+    'SIDEBAR_FOOTNOTE': '',  # Custom sidebar footer text
+
+    # Theme Configuration
+    'DEFAULT_THEME': None,  # e.g., 'corporate', 'dark'
+    'DEFAULT_THEME_DARK': None,  # Dark mode default
+    'SHOW_THEME_SELECTOR': True,  # Show/hide theme dropdown
+    'THEME_LIST': [
+        {'name': 'Light', 'value': 'light'},
+        {'name': 'Dark', 'value': 'dark'},
+        # Add custom themes...
+    ],
+
+    # Third-Party App Customization
+    'APPS_REORDER': {
+        'auth': {
+            'icon': 'fa-solid fa-person-military-pointing',
+            'name': 'Authentication',
+            'hide': False,
+            'divider_title': "Auth",
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -111,11 +151,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'statics/'
+MEDIA_URL = "media/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "statics")]
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
