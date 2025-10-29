@@ -34,15 +34,15 @@ INSTALLED_APPS = [
     'django_daisy',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.humanize',
+    'django.contrib.humanize',  # Required for django-daisy admin panel template
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
     # apps
-    "home.apps.HomeConfig",
-    "account.apps.AccountConfig",
+    "apps.home.apps.HomeConfig",
+    "apps.account.apps.AccountConfig",
 ]
 
 MIDDLEWARE = [
@@ -103,43 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# DaisyUI Admin Theme Configuration
-DAISY_SETTINGS = {
-    # Branding
-    'SITE_TITLE': 'Django Admin',
-    'SITE_HEADER': 'Administration',
-    'INDEX_TITLE': 'Hi, welcome to your dashboard',
-    'SITE_LOGO': '/static/admin/img/daisyui-logomark.svg',
-
-    # Customization
-    'EXTRA_STYLES': [],  # Additional CSS files
-    'EXTRA_SCRIPTS': [],  # Additional JS files
-    'LOAD_FULL_STYLES': False,  # Load complete DaisyUI library
-    'SHOW_CHANGELIST_FILTER': False,  # Auto-open filter sidebar
-    'DONT_SUPPORT_ME': True,  # Hide GitHub link
-    'SIDEBAR_FOOTNOTE': '',  # Custom sidebar footer text
-
-    # Theme Configuration
-    'DEFAULT_THEME': None,  # e.g., 'corporate', 'dark'
-    'DEFAULT_THEME_DARK': None,  # Dark mode default
-    'SHOW_THEME_SELECTOR': True,  # Show/hide theme dropdown
-    'THEME_LIST': [
-        {'name': 'Light', 'value': 'light'},
-        {'name': 'Dark', 'value': 'dark'},
-        # Add custom themes...
-    ],
-
-    # Third-Party App Customization
-    'APPS_REORDER': {
-        'auth': {
-            'icon': 'fa-solid fa-person-military-pointing',
-            'name': 'Authentication',
-            'hide': False,
-            'divider_title': "Auth",
-        },
-    },
-}
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -154,12 +117,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'statics/'
+STATIC_URL = 'static/'
 MEDIA_URL = "media/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "statics")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "account.User"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "apps.account.authentication.EmailAuthBackend",
+]
