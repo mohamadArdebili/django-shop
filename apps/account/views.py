@@ -1,11 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, reverse
-from django.utils.crypto import get_random_string
 from django.views import View
 from uuid import uuid4
 from random import randint
-from .models import User, Otp
-from .forms import LoginForm, OtpLoginForm, CheckOtpForm
+from .models import User, Otp, Address
+from .forms import LoginForm, OtpLoginForm, CheckOtpForm, AddressCreationForm
 
 
 # def user_login(request):
@@ -13,7 +12,7 @@ from .forms import LoginForm, OtpLoginForm, CheckOtpForm
 class UserLoginView(View):
     def get(self, request):
         form = LoginForm()
-        return render(request, "account/templates/account/login.html", {"form": form})
+        return render(request, "account/login.html", {"form": form})
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -27,13 +26,13 @@ class UserLoginView(View):
                 form.add_error("username", "Invalid username or password")
         else:
             form.add_error("username", "Invalid user data")
-        return render(request, "account/templates/account/login.html", {"form": form})
+        return render(request, "account/login.html", {"form": form})
 
 
 class OtpLoginView(View):
     def get(self, request):
         form = OtpLoginForm()
-        return render(request, "account/templates/account/otp_login.html", {"form": form})
+        return render(request, "account/otp_login.html", {"form": form})
 
     def post(self, request):
         form = OtpLoginForm(request.POST)
@@ -43,16 +42,19 @@ class OtpLoginView(View):
             print(f"OTP: {random_code}")
             token = str(uuid4())
             Otp.objects.create(phone=cd["phone"], code=random_code, token=token)
+            next_page = request.GET.get("next")
+            if next_page:
+                print(f"*******{next_page}**********")
             return redirect(reverse("account:check_otp") + f'?token={token}')
         else:
             form.add_error("phone", "Invalid user data")
-        return render(request, "account/templates/account/otp_login.html", {"form": form})
+        return render(request, "account/otp_login.html", {"form": form})
 
 
 class CheckOtpView(View):
     def get(self, request):
         form = CheckOtpForm()
-        return render(request, "account/templates/account/check_otp.html", {"form": form})
+        return render(request, "account/check_otp.html", {"form": form})
 
     def post(self, request):
         form = CheckOtpForm(request.POST)
@@ -68,9 +70,27 @@ class CheckOtpView(View):
                 return redirect("/")
         else:
             form.add_error("code", "Invalid data")
-        return render(request, "account/templates/account/check_otp.html", {"form": form})
+        return render(request, "account/check_otp.html", {"form": form})
 
 
 def logout_view(request):
     logout(request)
     return redirect("/")
+
+
+class AddAddressView(View):
+    def get(self, request):
+        form = AddressCreationForm()
+        return render(request, "account/add_address.html", {"form": form})
+
+    def post(self, request):
+        form = AddressCreationForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            next_page = request.GET.get("next")
+            if next_page:
+                return redirect(next_page)
+
+        return render(request, "account/add_address.html", {"form": form})

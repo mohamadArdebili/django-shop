@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
-from apps.account.models import User
+from apps.account.models import User, Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -96,3 +96,12 @@ class CheckOtpForm(forms.Form):
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Code"}),
         max_length=4
     )
+
+
+class AddressCreationForm(forms.ModelForm):
+    """to create user's address"""
+    user = forms.IntegerField(required=False)
+
+    class Meta:
+        model = Address
+        fields = "__all__"

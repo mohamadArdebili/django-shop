@@ -77,3 +77,17 @@ class Otp(models.Model):
 
     def __str__(self):
         return self.phone 
+
+
+class Address(models.Model):
+    """information about customer's address"""
+    user = models.ForeignKey(User, models.CASCADE, related_name="addresses")
+    full_name = models.CharField(max_length=50)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=11)
+    address = models.CharField(max_length=254)
+    zip_code = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.user.phone
+
