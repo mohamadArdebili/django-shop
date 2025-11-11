@@ -43,7 +43,7 @@ multi_shop3/
 
 ### 1. Clone the repository
 ```
-git clone https://github.com/mohamadArdebili/django-shop
+git clone https://github.com/mohamadArdebili/django-shop.git
 cd multi_shop3
 ```
 ### 2. Create and activate virtual environment
