@@ -175,33 +175,36 @@
                             </div>
                         </div>
                     </div>
-                    {% for product in object_list %}
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                            <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" src="{{ product.image.url }}" alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href=""><i
-                                                class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i
-                                                class="fa fa-sync-alt"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                    {% cache 15 p %}
+                        {% for product in object_list %}
+                            <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                                <div class="product-item bg-light mb-4">
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="{{ product.image.url }}" alt="">
+                                        <div class="product-action">
+                                            <a class="btn btn-outline-dark btn-square" href=""><i
+                                                    class="fa fa-shopping-cart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href=""><i
+                                                    class="far fa-heart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href=""><i
+                                                    class="fa fa-sync-alt"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href=""><i
+                                                    class="fa fa-search"></i></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" href="">{{ product.title }}</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>${{ product.price }}</h5>
-                                        <h6 class="text-muted ml-2">
-                                            <del>$123.00</del>
-                                        </h6>
+                                    <div class="text-center py-4">
+                                        <a class="h6 text-decoration-none text-truncate" href="">{{ product.title }}</a>
+                                        <div class="d-flex align-items-center justify-content-center mt-2">
+                                            <h5>${{ product.price }}</h5>
+                                            <h6 class="text-muted ml-2">
+                                                <del>$123.00</del>
+                                            </h6>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% endcache %}
 
                     <div class="col-12">
                         {% with params=params %}
@@ -210,6 +213,8 @@
                                     {% if page_obj.has_previous %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page=
+
+
 
                                                     {{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
                                         </li>
@@ -220,11 +225,15 @@
                                             <li class="page-item active">
                                                 <a class="page-link" href="?page=
 
+
+
                                                         {{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a>
                                             </li>
                                         {% else %}
                                             <li class="page-item">
                                                 <a class="page-link" href="?page=
+
+
 
                                                         {{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a>
                                             </li>
@@ -234,6 +243,8 @@
                                     {% if page_obj.has_next %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page=
+
+
 
                                                     {{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
                                         </li>

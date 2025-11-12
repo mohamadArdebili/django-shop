@@ -29,7 +29,7 @@ class CategoryStyle(TemplateView):
 class ProductListView(ListView):
     template_name = "product/products_list.html"
     model = Product
-    paginate_by = 1
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = super().get_queryset()  # Product.objects.all() by default
