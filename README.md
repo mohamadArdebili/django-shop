@@ -1,6 +1,6 @@
 # Shop (Django E-Commerce)
 
-A modular Django-based e-commerce sample project with product listing, filtering, and pagination features.
+A modular Django-based e-commerce sample dockerized project with ZarinPal gateway, products caching using Redis, products listing, filtering and pagination features.
 
 ## ✨ Features
 - ZarinPal Gate
