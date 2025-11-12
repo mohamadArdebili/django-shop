@@ -20,7 +20,7 @@ A modular Django-based e-commerce sample dockerized project with ZarinPal gatewa
 ## Tech Stack
 - Python 3
 - Django
-- Docker & DockerCompose
+- Docker
 - Redis
 - SQLite 
 - JS/ HTML / CSS / Bootstrap
